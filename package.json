@@ -1,0 +1,33 @@
+{
+  "name": "trucs",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "watch": "tsc --noEmit --watch",
+    "drizzle:push": "npx drizzle-kit push"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.2",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

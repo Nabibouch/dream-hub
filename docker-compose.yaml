@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: trucs_db
+    environment:
+      - POSTGRES_DB=trucs_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=mdp123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    restart: unless-stopped
+
+  adminer:
+      image: adminer
+      container_name: adminer_trucs
+      ports:
+        - "8080:8080"
+      restart: unless-stopped
+      depends_on:
+        - postgres
+
+volumes:
+  postgres_data:

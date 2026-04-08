@@ -20,5 +20,10 @@ export class UserRepository implements IUserRepository {
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id));
     if (!user) throw new Error("Aucun utilisateur trouvé avec cet id");
     return user;
+  };
+  async findAll(): Promise<User[]> {
+    const users = await db.select().from(usersTable);
+    if (!users) throw new Error("Aucun utilisateur trouvé");
+    return users;
   }
 }

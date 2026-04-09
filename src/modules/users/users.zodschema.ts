@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const createUserSchema = z.object({
-  username: z.string().min(2, "Le pseudo doit être de minimum 2 caractère"),
+  username: z.string().min(2, "Le pseudo doit être de minimum 2 caractères"),
   age: z.number().positive().lte(100),
-  password: z.string().min(6),
+  password: z.string().min(6, "Le mot de passe doit contenir au mois 6 caractères"),
   email: z.email(),
 }).strict();
 

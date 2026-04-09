@@ -18,12 +18,20 @@ export class UserRepository implements IUserRepository {
   };
   async findById(id: string): Promise<User> {
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id));
-    if (!user) throw new Error("Aucun utilisateur trouvé avec cet id");
+    if (!user) throw new Error(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
     return user;
   };
   async findAll(): Promise<User[]> {
-    const users = await db.select().from(usersTable);
-    if (!users) throw new Error("Aucun utilisateur trouvé");
-    return users;
+    return await db.select().from(usersTable);
+  };
+  async deleteById(id: string): Promise<User> {
+    const [deletedUser] = await db.delete(usersTable).where(eq(usersTable.id, id)).returning();
+    if (!deletedUser) throw new Error(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
+    return deletedUser;
+  };
+  async findByEmail(email: string): Promise<User> {
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email));
+    if (!user) throw new Error(`Aucun utilisateur avec l'email ${email} n'a été trouvé`);
+    return user;
   }
 }

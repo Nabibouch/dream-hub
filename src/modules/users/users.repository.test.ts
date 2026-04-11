@@ -124,5 +124,26 @@ describe("User repository test", () => {
     });
   });
 
+  it("Should find a user by email", async () => {
+    await db.transaction(async (tx) => {
 
+      const repository = new UserRepository(tx);
+
+      const user1 = await repository.create({
+        username: "Nabitest",
+        email: "nabitest@gmail.com",
+        password: "mdp123",
+        age: 20
+      });
+
+      const foundUser = await repository.findByEmail(user1!.email);
+
+      expect(foundUser).not.toBeNull();
+      expect(foundUser?.username).toBe("Nabitest");
+
+      throw new Error("ROLLBACK");
+    }).catch((err) => {
+      if ((err as Error).message !== "ROLLBACK") throw err;
+    })
+  })
 });

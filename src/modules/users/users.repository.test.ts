@@ -89,4 +89,40 @@ describe("User repository test", () => {
     });
   });
 
+  it("Should delete one user", async () => {
+    await db.transaction(async (tx) => {
+      const repository = new UserRepository(tx);
+
+      const user1 = await repository.create({
+        username: "Nabitest",
+        email: "nabitest@gmail.com",
+        password: "mdp123",
+        age: 20
+      });
+      await repository.create({
+        username: "Nabitest2",
+        email: "nabitest2@gmail.com",
+        password: "mdp123",
+        age: 20
+      });
+      await repository.create({
+        username: "Nabitest3",
+        email: "nabitest3@gmail.com",
+        password: "mdp123",
+        age: 20
+      });
+
+      const deletedUser = await repository.deleteById(user1!.id);
+      const allUsers = await repository.findAll();
+
+      expect(deletedUser).not.toBeNull();
+      expect(allUsers.length).toBe(3);
+
+      throw new Error("ROLLBACK");
+    }).catch((err) => {
+      if ((err as Error).message !== "ROLLBACK") throw err;
+    });
+  });
+
+
 });

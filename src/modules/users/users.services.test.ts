@@ -35,5 +35,23 @@ describe("Users service test", () => {
     expect(mockedRepository.create).toHaveBeenCalledWith(input);
   });
 
+  it("Should throw an error if repository return null", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn().mockResolvedValue(null),
+      findById: vi.fn(),
+      findAll: vi.fn(),
+      deleteById: vi.fn(),
+      findByEmail: vi.fn()
+    };
+    const service = new UserService(mockedRepository);
 
+    const input = {
+      username: "Nabitest",
+      email: "nabitest@gmail.com",
+      password: "mdp123",
+      age: 20
+    }
+
+    await expect(service.createUser(input)).rejects.toThrow("Erreur lors de la création de l'utilisateur")
+  })
 });

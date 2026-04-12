@@ -134,5 +134,16 @@ describe("Users service test", () => {
     expect(user!.username).toBe("Nabitest");
   });
 
+  it("should throw an error if user is not in db", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn().mockResolvedValue(null),
+      deleteById: vi.fn(),
+      findAll: vi.fn(),
+      findByEmail: vi.fn()
+    };
+    const service = new UserService(mockedRepository);
 
+    await expect(service.getUserById("uuid")).rejects.toThrow();
+  })
 });

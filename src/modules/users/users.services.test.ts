@@ -5,15 +5,17 @@ import { UserService } from "./users.service.js";
 
 describe("Users service test", () => {
 
+  const output = {
+    id: "uuid",
+    username: "Nabitest",
+    email: "nabitest@gmail.com",
+    password: "mdp123",
+    age: 20
+  }
+
   it("Should create a user", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn().mockResolvedValue({
-        id: "uuid",
-        username: "Nabitest",
-        email: "nabitest@gmail.com",
-        password: "mdp123",
-        age: 20
-      }),
+      create: vi.fn().mockResolvedValue(output),
       findById: vi.fn(),
       findAll: vi.fn(),
       deleteById: vi.fn(),
@@ -115,5 +117,22 @@ describe("Users service test", () => {
     }
     await expect(service.createUser(input)).rejects.toThrow();
     expect(mockedRepository.create).not.toHaveBeenCalled();
-  })
+  });
+
+  it("should get a user by id", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn().mockResolvedValue(output),
+      findAll: vi.fn(),
+      deleteById: vi.fn(),
+      findByEmail: vi.fn()
+    };
+    const service = new UserService(mockedRepository);
+    const user = await service.getUserById('uuid');
+
+    expect(user).not.toBeNull();
+    expect(user!.username).toBe("Nabitest");
+  });
+
+
 });

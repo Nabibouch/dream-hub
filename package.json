@@ -8,6 +8,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "dev": "tsx watch --env-file=.env src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
@@ -27,6 +28,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.5.2",
     "@types/pg": "^8.20.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "dotenv": "^17.4.1",
     "drizzle-kit": "^0.31.10",
     "tsx": "^4.21.0",

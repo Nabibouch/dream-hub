@@ -1,3 +1,4 @@
+import { error } from "console";
 import type { IUserRepository } from "./users.repository.js";
 import type { User } from "./users.type.js";
 import { createUserSchema, type createUserDTO } from "./users.zodschema.js";
@@ -24,4 +25,11 @@ export class UserService {
     if (!user) throw new Error(`Aucun utilisateur avec l'email ${email} n'a été trouvé`);
     return user;
   };
+
+  async getAllUsers(): Promise<User[]> {
+    const users = await this.userRepository.findAll();
+    return users;
+  };
+
+
 }

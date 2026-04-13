@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import type { UserService } from "./users.service.js";
 import { ZodError } from "zod"
 // import { checkId } from "../../utils/checkId.js";
@@ -22,19 +22,20 @@ export class UserController {
   }
   }
 
-  getUser = async (req: Request<{id: string}>, res: Response) => {
+  getUser = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     try {
       // const id = checkId(req.params);
       const { id } = req.params
       const user = await this.service.getUserById(id);
       return res.status(200).json(user);
     } catch (err) {
-      if (err instanceof ZodError) {
-        return res.status(400).json({ error: err.issues });
-      }
-      return res.status(500).json({
-        error: err instanceof Error ? err.message : "Internal server error"
-      });
+      // if (err instanceof ZodError) {
+      //   return res.status(400).json({ error: err.issues });
+      // }
+      // return res.status(500).json({
+      //   error: err instanceof Error ? err.message : "Internal server error"
+      // });
+      next(err)
     }
   }
 }

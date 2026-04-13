@@ -1,4 +1,4 @@
-import { error } from "console";
+import { NotFoundError } from "@/common/errors/NotFoundError.js";
 import type { IUserRepository } from "./users.repository.js";
 import type { User } from "./users.type.js";
 import { createUserSchema, type createUserDTO } from "./users.zodschema.js";
@@ -10,13 +10,13 @@ export class UserService {
   async createUser(data: unknown): Promise<User> {
     const valideData: createUserDTO = createUserSchema.parse(data);
     const user = await this.userRepository.create(valideData);
-    if (!user) throw new Error("Erreur lors de la création de l'utilisateur");
+    if (!user) throw new NotFoundError("Erreur lors de la création de l'utilisateur");
     return user;
   };
 
   async getUserById(id: string): Promise<User> {
     const user = await this.userRepository.findById(id);
-    if (!user) throw new Error(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
+    if (!user) throw new NotFoundError(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
     return user;
   };
 

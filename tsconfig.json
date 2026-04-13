@@ -41,7 +41,12 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
 
+    "paths": {
+      "@/*": ["./src/*"],
+    }
+
+
   },
   // "include": ["src", "drizzle.config.ts"]
-  "exclude": ["drizzle.config.ts"]
+  "exclude": ["drizzle.config.ts", "vitest.config.ts", "vitest.setup.ts" ]
 }

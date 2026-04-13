@@ -1,6 +1,6 @@
 import type { UserService } from "../users/users.service.js";
 import { loginSchema, registerSchema } from "./auth.zodschema.js";
-import { hashPassword, verifyPassword } from "../../lib/security/password.js";
+import { hashPassword, verifyPassword } from "../../common/security/password.js";
 
 
 export class AuthService {

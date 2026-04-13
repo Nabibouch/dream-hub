@@ -31,5 +31,9 @@ export class UserService {
     return users;
   };
 
-
+  async deleteUserById(id: string): Promise<User> {
+    const deletedUser = await this.userRepository.deleteById(id);
+    if (!deletedUser) throw new Error(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
+    return deletedUser;
+  }
 }

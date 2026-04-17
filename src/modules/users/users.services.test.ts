@@ -146,4 +146,19 @@ describe("Users service test", () => {
 
     await expect(service.getUserById("uuid")).rejects.toThrow();
   })
+
+  it("should find a user by email", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn(),
+      deleteById: vi.fn(),
+      findAll: vi.fn(),
+      findByEmail: vi.fn().mockResolvedValue(output)
+    };
+    const service = new UserService(mockedRepository);
+    const user = await service.getUserByEmail("nabitest@gmail.com");
+
+    expect(user.id).toBe("uuid");
+    expect(user.email).toBe("nabitest@gmail.com");
+  })
 });

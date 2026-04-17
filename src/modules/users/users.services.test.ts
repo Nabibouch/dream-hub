@@ -220,4 +220,15 @@ describe("Users service test", () => {
     expect(deletedUser.username).toBe("Nabitest");
   })
 
+  it("should throw if user not found when calling deleteUserById", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn(),
+      deleteById: vi.fn().mockResolvedValue(null),
+      findAll: vi.fn(),
+      findByEmail: vi.fn()
+    }
+    const service = new UserService(mockedRepository);
+    await expect(service.deleteUserById("uuid")).rejects.toThrow("Aucun utilisateur avec l'id uuid n'a été trouvé")
+  })
 });

@@ -47,4 +47,13 @@ export class UserController {
     }
   }
 
+  deleteUserById = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const deletedUser = await this.service.deleteUserById(id);
+      return res.status(204).json(deletedUser);
+    } catch (err) {
+      next(err)
+    }
+  }
 }

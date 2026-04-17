@@ -161,4 +161,47 @@ describe("Users service test", () => {
     expect(user.id).toBe("uuid");
     expect(user.email).toBe("nabitest@gmail.com");
   })
+
+  it("should get all users", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn(),
+      deleteById: vi.fn(),
+      findAll: vi.fn().mockResolvedValue([
+        {
+          "id": "uuid1",
+          "username": "Nabitest1",
+          "age": 22,
+          "password": "mdp123",
+          "email": "nabitest1@gmail.com",
+          "bio": null,
+          "created_at": "2026-04-08T14:59:34.311Z"
+        },
+        {
+          "id": "uuid2",
+          "username": "Nabitest2",
+          "age": 22,
+          "password": "mdp123",
+          "email": "nabitest2@gmail.com",
+          "bio": null,
+          "created_at": "2026-04-08T14:59:34.311Z"
+        }
+      ]),
+      findByEmail: vi.fn()
+    }
+
+    const service = new UserService(mockedRepository);
+    const users = await service.getAllUsers();
+
+    expect(users).not.toBeNull();
+    expect(users[0]).toStrictEqual({
+      "id": "uuid1",
+      "username": "Nabitest1",
+      "age": 22,
+      "password": "mdp123",
+      "email": "nabitest1@gmail.com",
+      "bio": null,
+      "created_at": "2026-04-08T14:59:34.311Z"
+    })
+  })
 });

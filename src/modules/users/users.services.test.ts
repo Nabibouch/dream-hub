@@ -204,4 +204,20 @@ describe("Users service test", () => {
       "created_at": "2026-04-08T14:59:34.311Z"
     })
   })
+
+  it("should delete a user by id", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn(),
+      deleteById: vi.fn().mockResolvedValue(output),
+      findAll: vi.fn(),
+      findByEmail: vi.fn()
+    }
+    const service = new UserService(mockedRepository);
+    const deletedUser = await service.deleteUserById("uuid");
+
+    expect(deletedUser).not.toBeNull();
+    expect(deletedUser.username).toBe("Nabitest");
+  })
+
 });

@@ -22,7 +22,7 @@ export class UserService {
 
   async getUserByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findByEmail(email);
-    if (!user) throw new Error(`Aucun utilisateur avec l'email ${email} n'a été trouvé`);
+    if (!user) throw new NotFoundError(`Aucun utilisateur avec l'email ${email} n'a été trouvé`);
     return user;
   };
 
@@ -33,7 +33,7 @@ export class UserService {
 
   async deleteUserById(id: string): Promise<User> {
     const deletedUser = await this.userRepository.deleteById(id);
-    if (!deletedUser) throw new Error(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
+    if (!deletedUser) throw new NotFoundError(`Aucun utilisateur avec l'id ${id} n'a été trouvé`);
     return deletedUser;
   }
 }

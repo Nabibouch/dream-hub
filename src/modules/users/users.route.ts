@@ -15,6 +15,8 @@ const service = new UserService(repository);
 const controller = new UserController(service);
 
 router.post("/", validation(createUserSchema), controller.createUser);
-router.get("/:id", controller.getUser);
+router.get("/:id", controller.getUserById);
+router.get("/", controller.getUser);
+router.delete("/:id", controller.deleteUserById);
 
 export default router

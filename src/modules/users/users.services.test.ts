@@ -231,4 +231,15 @@ describe("Users service test", () => {
     const service = new UserService(mockedRepository);
     await expect(service.deleteUserById("uuid")).rejects.toThrow("Aucun utilisateur avec l'id uuid n'a été trouvé")
   })
+  it("should throw if user not found when calling getUserByEmail", async () => {
+    const mockedRepository: IUserRepository = {
+      create: vi.fn(),
+      findById: vi.fn(),
+      deleteById: vi.fn(),
+      findAll: vi.fn(),
+      findByEmail: vi.fn().mockResolvedValue(null)
+    }
+    const service = new UserService(mockedRepository);
+    await expect(service.getUserByEmail("nabitest@gmail.com")).rejects.toThrow("Aucun utilisateur avec l'email nabitest@gmail.com n'a été trouvé");
+  })
 });

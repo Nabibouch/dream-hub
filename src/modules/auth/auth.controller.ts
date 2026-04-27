@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import type { AuthService } from "./auth.service.js";
 
 
@@ -17,5 +17,12 @@ export class AuthController {
     };
   };
 
-
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await this.AuthUser.login(req.body);
+      return res.status(200).json(user);
+    } catch (err) {
+      next(err)
+    }
+  }
 }

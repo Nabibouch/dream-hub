@@ -2,9 +2,9 @@ import { Router } from "express";
 import { UserRepository } from "./users.repository.js";
 import { UserService } from "./users.service.js";
 import { UserController } from "./users.controller.js";
-import { validation } from "../../middlewares/validation.js";
+import { validation } from "@/middlewares/validation.js";
 import { createUserSchema } from "./users.zodschema.js";
-import { db } from "../../db/index.js";
+import { db } from "@/db/index.js";
 
 
 

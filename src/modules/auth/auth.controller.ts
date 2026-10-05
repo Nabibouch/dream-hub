@@ -6,15 +6,13 @@ import type { AuthService } from "./auth.service.js";
 export class AuthController {
   constructor(private authService: AuthService) { };
 
-  register = async (req: Request, res: Response) => {
+  register = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await this.authService.register(req.body);
       return res.status(201).json(user);
     } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).json({ error: err.message })
-      };
-    };
+      next(err)
+    }
   };
 
   login = async (req: Request, res: Response, next: NextFunction) => {

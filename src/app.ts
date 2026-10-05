@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
-app.use(errorHandler)
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(generateOpenApiDocument()));
+app.use(errorHandler);
 
 export default app;

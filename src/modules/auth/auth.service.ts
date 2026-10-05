@@ -19,7 +19,9 @@ export class AuthService {
       password: hashedPassword,
       age: valideData.age
     });
-    return user;
+    if (!user) throw new Error("Erreur lors de la création de l'utilisateur");
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   };
 
   async login(data: unknown) {

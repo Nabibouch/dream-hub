@@ -15,7 +15,7 @@ const repository = new AuthRepository(db);
 const service = new AuthService(repository);
 const controller = new AuthController(service);
 
-router.post('register', validation(registerSchema), controller.register);
-router.post('login', validation(loginSchema), controller.login);
+router.post('/register', validation(registerSchema), controller.register);
+router.post('/login', validation(loginSchema), controller.login);
 
 export default router;

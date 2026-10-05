@@ -13,15 +13,11 @@ export class AuthRepository implements IAuthRepository {
     constructor(private database: any) {}
 
     async create(data: createUserDTO): Promise<User | null> {
-        const [user] = await this.database.insert(usersTable).value(data).returning();
+        const [user] = await this.database.insert(usersTable).values(data).returning();
         return user ?? null;
     }
     async findByMail(email: string): Promise<User | null> {
-        const [user] = await this.database.select({
-            username: usersTable.username,
-            email: usersTable.email,
-            password: usersTable.password,
-        }).from(usersTable).where(eq(usersTable.email, email));
+        const [user] = await this.database.select().from(usersTable).where(eq(usersTable.email, email));
         return user ?? null;
     }
 }

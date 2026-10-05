@@ -25,6 +25,7 @@ describe("Users service test", () => {
 
     expect(user).not.toBeNull();
     expect(user!.username).toBe("Nabitest");
+    expect(user).not.toHaveProperty("password");
   });
 
   it("should throw an error if user is not in db", async () => {
@@ -88,7 +89,6 @@ describe("Users service test", () => {
       "id": "uuid1",
       "username": "Nabitest1",
       "age": 22,
-      "password": "mdp123",
       "email": "nabitest1@gmail.com",
       "bio": null,
       "created_at": "2026-04-08T14:59:34.311Z"

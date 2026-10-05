@@ -7,8 +7,8 @@ import { AuthRepository } from "../auth/auth.repository.js";
 describe("User repository test", () => {
   it("should find a user by id", async () => {
     await db.transaction(async (tx) => {
-      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
+      const authRepository = new AuthRepository(tx, repository);
 
       const user = await authRepository.create({
         username: "Nabitest",
@@ -29,8 +29,8 @@ describe("User repository test", () => {
 
   it("Should find all the users", async () => {
     await db.transaction(async (tx) => {
-      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
+      const authRepository = new AuthRepository(tx, repository);
 
       await authRepository.create({
         username: "Nabitest",
@@ -73,8 +73,8 @@ describe("User repository test", () => {
 
   it("Should delete one user", async () => {
     await db.transaction(async (tx) => {
-      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
+      const authRepository = new AuthRepository(tx, repository);
 
       const user1 = await authRepository.create({
         username: "Nabitest",
@@ -109,8 +109,8 @@ describe("User repository test", () => {
 
   it("Should find a user by email", async () => {
     await db.transaction(async (tx) => {
-      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
+      const authRepository = new AuthRepository(tx, repository);
 
       const user1 = await authRepository.create({
         username: "Nabitest",

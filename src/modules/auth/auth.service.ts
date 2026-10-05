@@ -1,6 +1,8 @@
 import { loginSchema, registerSchema } from "./auth.zodschema.js";
 import { hashPassword, verifyPassword } from "@/common/security/password.js";
 import type {IAuthRepository} from "@/modules/auth/auth.repository.js";
+import { UnauthorizedError } from "@/common/errors/UnauthorizedError.js";
+import { ConflictError } from "@/common/errors/ConflictError.js";
 
 
 export class AuthService {
@@ -9,7 +11,7 @@ export class AuthService {
   async register(data: unknown) {
     const valideData = registerSchema.parse(data);
     const existingUser = await this.authRepository.findByMail(valideData.email);
-    if (existingUser) throw new Error("Email déjà utilisé par un utilisateur");
+    if (existingUser) throw new ConflictError("Email déjà utilisé par un utilisateur");
 
     const hashedPassword = await hashPassword(valideData.password);
 
@@ -27,12 +29,8 @@ export class AuthService {
   async login(data: unknown) {
     const valideData = loginSchema.parse(data);
     const user = await this.authRepository.findByMail(valideData.email);
-    if (!user) {
-      throw new Error(`Aucun utilisateur inscrit avec le mail : ${valideData.email}`);
-    };
-
-    if (!(await verifyPassword(valideData.password, user.password))) {
-      throw new Error("Mot de passe incorrect");
+    if (!user || !(await verifyPassword(valideData.password, user.password))) {
+      throw new UnauthorizedError("Email ou mot de passe incorrect");
     };
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;

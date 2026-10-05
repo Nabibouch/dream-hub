@@ -20,3 +20,12 @@ export const createUserSchema = z.object({
 }).strict().openapi("CreateUser");
 
 export type createUserDTO = z.infer<typeof createUserSchema>;
+
+export const publicUserSchema = z.object({
+  id: z.uuid(),
+  username: z.string().openapi({ example: 'John' }),
+  email: z.email().openapi({ example: 'johndoe@email.com' }),
+  age: z.number().nullable().openapi({ example: 22 }),
+  bio: z.string().nullable(),
+  created_at: z.string().nullable(),
+}).openapi('PublicUser');

@@ -7,7 +7,7 @@ import authRouter from "./modules/auth/auth.route.js";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import './modules/users/users.docs.js';
-// import './modules/auth/auth.docs.js';
+import './modules/auth/auth.docs.js';
 
 const app = express();
 

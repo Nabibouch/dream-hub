@@ -1,6 +1,6 @@
 // src/modules/users/user.docs.ts
 import { registry } from '@/docs/registry.js';
-import { createUserSchema } from './users.zodschema.js';
+import { publicUserSchema } from './users.zodschema.js';
 import { z } from 'zod';
 
 registry.registerPath({
@@ -14,7 +14,7 @@ registry.registerPath({
   responses: {
     200: {
       description: 'Utilisateur trouvé',
-      content: { 'application/json': { schema: createUserSchema } },
+      content: { 'application/json': { schema: publicUserSchema } },
     },
     404: { description: 'Utilisateur non trouvé' },
   },

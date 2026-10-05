@@ -13,115 +13,8 @@ describe("Users service test", () => {
     age: 20
   }
 
-  it("Should create a user", async () => {
-    const mockedRepository: IUserRepository = {
-      create: vi.fn().mockResolvedValue(output),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      deleteById: vi.fn(),
-      findByEmail: vi.fn()
-    };
-    const service = new UserService(mockedRepository);
-
-    const input = {
-      username: "Nabitest",
-      email: "nabitest@gmail.com",
-      password: "mdp123",
-      age: 20
-    }
-    const user = await service.createUser(input);
-
-    expect(user).not.toBeNull();
-    expect(user.username).toBe("Nabitest");
-    expect(mockedRepository.create).toHaveBeenCalledOnce();
-    expect(mockedRepository.create).toHaveBeenCalledWith(input);
-  });
-
-  it("Should throw an error if repository return null", async () => {
-    const mockedRepository: IUserRepository = {
-      create: vi.fn().mockResolvedValue(null),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      deleteById: vi.fn(),
-      findByEmail: vi.fn()
-    };
-    const service = new UserService(mockedRepository);
-
-    const input = {
-      username: "Nabitest",
-      email: "nabitest@gmail.com",
-      password: "mdp123",
-      age: 20
-    }
-
-    await expect(service.createUser(input)).rejects.toThrow("Erreur lors de la création de l'utilisateur")
-  });
-
-  it("Should throw an error if username is too short", async () => {
-    const mockedRepository: IUserRepository = {
-      create: vi.fn(),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      deleteById: vi.fn(),
-      findByEmail: vi.fn()
-    };
-    const service = new UserService(mockedRepository);
-
-    const input = {
-      username: "N",
-      email: "nabitest@gmail.com",
-      password: "mdp123",
-      age: 20
-    }
-
-    await expect(service.createUser(input)).rejects.toThrow();
-    expect(mockedRepository.create).not.toHaveBeenCalled();
-  });
-
-  it("should throw an error if email is invalid", async () => {
-    const mockedRepository: IUserRepository = {
-      create: vi.fn(),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      deleteById: vi.fn(),
-      findByEmail: vi.fn()
-    }
-    const service = new UserService(mockedRepository);
-
-    const input = {
-      username: "Nabitest",
-      email: "invalid",
-      password: "mdp123",
-      age: 20
-    }
-    await expect(service.createUser(input)).rejects.toThrow();
-    expect(mockedRepository.create).not.toHaveBeenCalled();
-  });
-
-  it("Should throw an error if password is too short", async () => {
-    const mockedRepository: IUserRepository = {
-      create: vi.fn(),
-      findById: vi.fn(),
-      findAll: vi.fn(),
-      deleteById: vi.fn(),
-      findByEmail: vi.fn()
-    };
-
-    const service = new UserService(mockedRepository);
-
-    const input = {
-      username: "Nabitest",
-      email: "nabitest@gmail.com",
-      password: "m",
-      age: 20
-    }
-    await expect(service.createUser(input)).rejects.toThrow();
-    expect(mockedRepository.create).not.toHaveBeenCalled();
-  });
-
   it("should get a user by id", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn().mockResolvedValue(output),
       findAll: vi.fn(),
       deleteById: vi.fn(),
@@ -136,7 +29,6 @@ describe("Users service test", () => {
 
   it("should throw an error if user is not in db", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn().mockResolvedValue(null),
       deleteById: vi.fn(),
       findAll: vi.fn(),
@@ -149,7 +41,6 @@ describe("Users service test", () => {
 
   it("should find a user by email", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn(),
       deleteById: vi.fn(),
       findAll: vi.fn(),
@@ -164,7 +55,6 @@ describe("Users service test", () => {
 
   it("should get all users", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn(),
       deleteById: vi.fn(),
       findAll: vi.fn().mockResolvedValue([
@@ -207,7 +97,6 @@ describe("Users service test", () => {
 
   it("should delete a user by id", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn(),
       deleteById: vi.fn().mockResolvedValue(output),
       findAll: vi.fn(),
@@ -222,7 +111,6 @@ describe("Users service test", () => {
 
   it("should throw if user not found when calling deleteUserById", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn(),
       deleteById: vi.fn().mockResolvedValue(null),
       findAll: vi.fn(),
@@ -233,7 +121,6 @@ describe("Users service test", () => {
   })
   it("should throw if user not found when calling getUserByEmail", async () => {
     const mockedRepository: IUserRepository = {
-      create: vi.fn(),
       findById: vi.fn(),
       deleteById: vi.fn(),
       findAll: vi.fn(),

@@ -12,7 +12,7 @@ export const createUserSchema = z.object({
     .openapi({example : 22}),
   password: z
     .string()
-    .min(6, "Le mot de passe doit contenir au mois 6 caractères")
+    .min(6, "Le mot de passe doit contenir au moins 6 caractères")
     .openapi({example : "******"}),
   email: z
     .email()

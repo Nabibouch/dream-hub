@@ -1,41 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { db } from "../../db/index.js";
 import { UserRepository } from "./users.repository.js";
+import { AuthRepository } from "../auth/auth.repository.js";
 
 
 describe("User repository test", () => {
-  it("should create a user", async () => {
-    await db.transaction(async (tx) => {
-      const repository = new UserRepository(tx);
-
-      const user = await repository.create({
-              username: "test",
-              email: "test@test.com",
-              password: "pass",
-              age: 20
-            });
-
-      expect(user).not.toBeNull();
-      expect(user?.username).toBe("test");
-
-      throw new Error("ROLLBACK");
-    }).catch((err) => {
-      if ((err as Error).message !== "ROLLBACK") throw err;
-    });
-  });
-
   it("should find a user by id", async () => {
     await db.transaction(async (tx) => {
+      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
 
-      const user = await repository.create({
+      const user = await authRepository.create({
         username: "Nabitest",
         email: "nabitest@gmail.com",
         password: "mdp123",
         age: 20
       });
-
-
 
       const foundUser = await repository.findById(user!.id);
       expect(foundUser).not.toBe(null);
@@ -46,23 +26,25 @@ describe("User repository test", () => {
       if ((err as Error).message !== "ROLLBACK") throw err;
     });
   });
+
   it("Should find all the users", async () => {
     await db.transaction(async (tx) => {
+      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
 
-      await repository.create({
+      await authRepository.create({
         username: "Nabitest",
         email: "nabitest@gmail.com",
         password: "mdp123",
         age: 20
       });
-      await repository.create({
+      await authRepository.create({
         username: "Nabitest2",
         email: "nabitest2@gmail.com",
         password: "mdp123",
         age: 20
       });
-      await repository.create({
+      await authRepository.create({
         username: "Nabitest3",
         email: "nabitest3@gmail.com",
         password: "mdp123",
@@ -91,21 +73,22 @@ describe("User repository test", () => {
 
   it("Should delete one user", async () => {
     await db.transaction(async (tx) => {
+      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
 
-      const user1 = await repository.create({
+      const user1 = await authRepository.create({
         username: "Nabitest",
         email: "nabitest@gmail.com",
         password: "mdp123",
         age: 20
       });
-      await repository.create({
+      await authRepository.create({
         username: "Nabitest2",
         email: "nabitest2@gmail.com",
         password: "mdp123",
         age: 20
       });
-      await repository.create({
+      await authRepository.create({
         username: "Nabitest3",
         email: "nabitest3@gmail.com",
         password: "mdp123",
@@ -116,7 +99,7 @@ describe("User repository test", () => {
       const allUsers = await repository.findAll();
 
       expect(deletedUser).not.toBeNull();
-      expect(allUsers.length).toBe(3);
+      expect(allUsers.map((el) => el.id)).not.toContain(user1!.id);
 
       throw new Error("ROLLBACK");
     }).catch((err) => {
@@ -126,10 +109,10 @@ describe("User repository test", () => {
 
   it("Should find a user by email", async () => {
     await db.transaction(async (tx) => {
-
+      const authRepository = new AuthRepository(tx);
       const repository = new UserRepository(tx);
 
-      const user1 = await repository.create({
+      const user1 = await authRepository.create({
         username: "Nabitest",
         email: "nabitest@gmail.com",
         password: "mdp123",

@@ -1,11 +1,9 @@
 import { eq } from "drizzle-orm";
 import { usersTable } from "../../db/schemas/users.js";
 import type { User } from "./users.type.js";
-import type { createUserDTO } from "./users.zodschema.js";
 
 
 export interface IUserRepository {
-  create(data: createUserDTO): Promise<User | null>
   findById(id: string): Promise<User | null>,
   findAll(): Promise<User[]>,
   deleteById(id: string): Promise<User | null>,
@@ -14,10 +12,6 @@ export interface IUserRepository {
 
 export class UserRepository implements IUserRepository {
   constructor(private database: any){} // type any here because the type is a bit fuzzy thanks to the transaction... Need to be change
-  async create(data: createUserDTO): Promise<User | null> {
-    const [user] = await this.database.insert(usersTable).values(data).returning();
-    return user ?? null;
-  };
   async findById(id: string): Promise<User | null> {
     const [user] = await this.database.select().from(usersTable).where(eq(usersTable.id, id));
     return user ?? null;

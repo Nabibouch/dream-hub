@@ -20,22 +20,4 @@ registry.registerPath({
   },
 });
 
-registry.registerPath({
-  method: 'post',
-  path: '/users',
-  tags: ['Users'],
-  request: {
-    body: {
-      content: { 'application/json': { schema: createUserSchema } },
-    },
-  },
-  responses: {
-    201: {
-      description: 'Utilisateur créé',
-      content: { 'application/json': { schema: createUserSchema } },
-    },
-    400: { description: 'Données invalides' },
-  },
-});
-
 // ... PUT/PATCH avec UpdateUserSchema, DELETE, etc.

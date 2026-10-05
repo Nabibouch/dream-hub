@@ -2,7 +2,8 @@ import './docs/zod-extend.js'; // ⚠️ à importer en tout premier, avant les 
 import swaggerUi from 'swagger-ui-express';
 import { generateOpenApiDocument } from './docs/generate-openapi.js';
 import express from "express";
-import router from "./modules/users/users.route.js";
+import userRouter from "./modules/users/users.route.js";
+import authRouter from "./modules/auth/auth.route.js";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import './modules/users/users.docs.js';
@@ -20,7 +21,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/users", router);
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 app.use(errorHandler)
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(generateOpenApiDocument()));
 

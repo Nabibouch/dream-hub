@@ -4,11 +4,11 @@ import type { AuthService } from "./auth.service.js";
 
 
 export class AuthController {
-  constructor(private AuthUser: AuthService) { };
+  constructor(private authService: AuthService) { };
 
-  async register(req: Request, res: Response) {
+  register = async (req: Request, res: Response) => {
     try {
-      const user = await this.AuthUser.register(req.body);
+      const user = await this.authService.register(req.body);
       return res.status(201).json(user);
     } catch (err) {
       if (err instanceof Error) {
@@ -17,9 +17,9 @@ export class AuthController {
     };
   };
 
-  async login(req: Request, res: Response, next: NextFunction) {
+  login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await this.AuthUser.login(req.body);
+      const user = await this.authService.login(req.body);
       return res.status(200).json(user);
     } catch (err) {
       next(err)
